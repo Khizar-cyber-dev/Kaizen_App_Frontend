@@ -4,7 +4,7 @@
     "slug": "Kizen",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash-icons.jpeg",
+    "icon": "./assets/images/splash-icons.png",
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,16 +14,16 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#000000",
-        "foregroundImage": "./assets/images/foregroundImage.jpeg",
-        "backgroundImage": "./assets/images/backgroundImage.jpeg",
-        "monochromeImage": "./assets/images/monochromeImage.jpeg"
+        "foregroundImage": "./assets/images/foregroundImage.png",
+        "monochromeImage": "./assets/images/monochromeImage.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.khizar_asim.Kizen"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/splash-icons.jpeg",
+      "favicon": "./assets/images/splash-icons.png",
       "bundler": "metro"
     },
     "plugins": [
@@ -31,7 +31,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icons.jpeg",
+          "image": "./assets/images/splash-icons.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000000",
@@ -40,11 +40,18 @@
           }
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8833bbc1-4253-485d-a40e-98e64de554c9"
+      }
     }
   }
 }

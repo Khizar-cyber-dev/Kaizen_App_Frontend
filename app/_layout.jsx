@@ -26,7 +26,16 @@ const tokenCache = {
       return item;
     } catch (error) {
       console.error("SecureStore get item error: ", error);
-      await SecureStore.deleteItemAsync(key);
+      try {
+        await SecureStore.deleteItemAsync(key);
+      } catch (deleteError) {
+        console.warn(`SecureStore delete failed for ${key}, falling back to empty value`, deleteError);
+        try {
+          await SecureStore.setItemAsync(key, "");
+        } catch (setError) {
+          console.error(`SecureStore fallback clear also failed for ${key}`, setError);
+        }
+      }
       return null;
     }
   },

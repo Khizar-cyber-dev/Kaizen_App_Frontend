@@ -2,6 +2,19 @@ import { create } from 'zustand';
 import api from '../lib/axios';
 import * as SecureStore from 'expo-secure-store';
 
+async function clearSecureItem(key) {
+    try {
+        await SecureStore.deleteItemAsync(key);
+    } catch (error) {
+        console.warn(`SecureStore delete failed for ${key}, falling back to empty value`, error);
+        try {
+            await SecureStore.setItemAsync(key, "");
+        } catch (setError) {
+            console.error(`SecureStore fallback clear also failed for ${key}`, setError);
+        }
+    }
+}
+
 export const useUserStore = create((set) => ({
     user: null,
     isLoading: false,
@@ -36,8 +49,8 @@ export const useUserStore = create((set) => ({
         } catch (error) {
             console.error("checkAuth: Verification failed", error);
             if (!silent) {
-                await SecureStore.deleteItemAsync("accessToken");
-                await SecureStore.deleteItemAsync("refreshToken");
+                await clearSecureItem("accessToken");
+                await clearSecureItem("refreshToken");
                 set({
                     user: null,
                     isAuthenticated: false,
@@ -125,8 +138,8 @@ export const useUserStore = create((set) => ({
             set({ user: null, isAuthenticated: false, isLoading: false });
 
             // Delete tokens from storage
-            await SecureStore.deleteItemAsync("accessToken");
-            await SecureStore.deleteItemAsync("refreshToken");
+            await clearSecureItem("accessToken");
+            await clearSecureItem("refreshToken");
 
             // Then notify backend (non-blocking) if we had a token
             if (refreshToken) {

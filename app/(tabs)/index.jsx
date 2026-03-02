@@ -305,6 +305,23 @@ export default function Index() {
           </View>
         </View>
 
+        {/* Journal Shortcut Container */}
+        <View className="px-6 mb-6">
+          <TouchableOpacity
+            onPress={() => router.push('/(tabs)/journal')}
+            className="bg-gradient-to-r from-emerald-800 to-emerald-600 rounded-2xl p-5 flex-row items-center border border-emerald-700/40 shadow-lg shadow-emerald-500/20"
+          >
+            <View className="w-12 h-12 bg-emerald-500/20 rounded-lg items-center justify-center mr-4">
+              <Ionicons name="book" size={24} color="#10B981" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-white text-lg font-semibold">Journal</Text>
+              <Text className="text-emerald-200 text-sm">Reflect on your journey</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#10B981" />
+          </TouchableOpacity>
+        </View>
+
         {/* Quick Actions */}
         <View className="px-6">
           <Text className="text-xl font-bold text-white mb-4">Quick Actions</Text>

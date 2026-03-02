@@ -93,7 +93,16 @@ export default function TabsLayout() {
         name="session-history"
         options={{
           headerShown: false,
-          href: null, // 👈 hides it completely from bottom tabs
+          href: null, // hides it completely from bottom tabs
+          tabBarStyle: { display: "none" },
+        }}
+      />
+
+      <Tabs.Screen
+        name="journal"
+        options={{
+          headerShown: false,
+          href: null, // hides it completely from bottom tabs
           tabBarStyle: { display: "none" },
         }}
       />
@@ -102,7 +111,7 @@ export default function TabsLayout() {
         name="session"
         options={{
           headerShown: false,
-          href: null, // 👈 hides it completely from bottom tabs
+          href: null, // hides it completely from bottom tabs
           tabBarStyle: { display: "none" },
         }}
       />

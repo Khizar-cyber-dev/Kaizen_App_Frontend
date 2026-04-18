@@ -108,6 +108,15 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
+        name="journal-history"
+        options={{
+          headerShown: false,
+          href: null, // hides it completely from bottom tabs
+          tabBarStyle: { display: "none" },
+        }}
+      />
+
+      <Tabs.Screen
         name="session"
         options={{
           headerShown: false,

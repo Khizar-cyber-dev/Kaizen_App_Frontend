@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useRouter } from "expo-router";
 import {
   View,
   Text,
@@ -15,7 +15,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useUserStore } from "@/store/useUserStore";
 import { useSessionStore } from "@/store/useSessionStore";
-import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import GithubHeatmap from "@/component/HeatMap";
 import * as SecureStore from 'expo-secure-store';

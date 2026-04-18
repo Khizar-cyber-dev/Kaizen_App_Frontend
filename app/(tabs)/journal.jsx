@@ -290,7 +290,7 @@ const Journal = () => {
                     <TouchableOpacity
                       key={opt}
                       onPress={() => setPrioritiesStatus(opt)}
-                      className={`flex-1 py-3 rounded-xl border transition-all ${
+                      className={`flex-1 py-3 rounded-xl border ${
                         prioritiesStatus === opt
                           ? 'bg-emerald-500 border-emerald-400 shadow-lg shadow-emerald-500/20'
                           : 'bg-gray-900/50 border-emerald-700/30'

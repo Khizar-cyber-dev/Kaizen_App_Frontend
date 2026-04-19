@@ -9,6 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Button,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,7 +34,24 @@ const Journal = () => {
   // evening form state
   const [amazingThings, setAmazingThings] = useState(["", "", ""]);
   const [prioritiesStatus, setPrioritiesStatus] = useState("");
+  const [showPriorityDropdown, setShowPriorityDropdown] = useState(false);
   const [improveTomorrow, setImproveTomorrow] = useState("");
+
+  const hasMorningReflection =
+    gratefulFor.some((item) => item.trim()) ||
+    topPriorities.some((item) => item.trim()) ||
+    affirmation.trim();
+
+  const hasEveningReflection =
+    amazingThings.some((item) => item.trim()) ||
+    prioritiesStatus ||
+    improveTomorrow.trim();
+
+  const PRIORITY_OPTIONS = [
+    { value: 'yes', label: '✓ Yes' },
+    { value: 'partially', label: '◐ Partial' },
+    { value: 'no', label: '✕ No' },
+  ];
 
   const resetForm = () => {
     setGratefulFor(["", "", ""]);
@@ -251,15 +269,24 @@ const Journal = () => {
 
               <TouchableOpacity
                 onPress={handleMorningSubmit}
-                disabled={isLoading}
-                className={`bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl p-4 shadow-lg shadow-emerald-500/20 ${isLoading ? 'opacity-70' : ''}`}
+                disabled={isLoading || !hasMorningReflection}
+                activeOpacity={0.8}
+                className={`rounded-3xl overflow-hidden ${isLoading || !hasMorningReflection ? 'opacity-60' : ''}`}
               >
-                {isLoading ? (
-                  <ActivityIndicator color="white" />
-                ) : (
-                  <Text className="text-white text-center font-bold text-lg">Save Morning Reflection</Text>
-                )}
+                  {isLoading ? (
+                    <ActivityIndicator color="white" />
+                  ) : (
+                    <View className={`flex-row items-center justify-center gap-2 bg-green-600/80 px-4 py-5 rounded-xl ${isLoading || !hasMorningReflection ? 'bg-emerald-700' : ''}`}>
+                      <Ionicons name="save" size={20} color="white" />
+                      <Text className="text-white text-center font-bold text-lg">Save Morning Reflection</Text>
+                    </View>
+                  )}
               </TouchableOpacity>
+              {!hasMorningReflection && (
+                <Text className="text-gray-400 text-center text-xs mt-3">
+                  Add at least one entry before saving your morning reflection.
+                </Text>
+              )}
             </View>
           )}
 
@@ -285,27 +312,42 @@ const Journal = () => {
                   </View>
                   <Text className="text-white font-semibold text-lg">Did you complete your priorities?</Text>
                 </View>
-                <View className="flex-row gap-2">
-                  {['yes', 'partially', 'no'].map((opt) => (
-                    <TouchableOpacity
-                      key={opt}
-                      onPress={() => setPrioritiesStatus(opt)}
-                      className={`flex-1 py-3 rounded-xl border ${
-                        prioritiesStatus === opt
-                          ? 'bg-emerald-500 border-emerald-400 shadow-lg shadow-emerald-500/20'
-                          : 'bg-gray-900/50 border-emerald-700/30'
-                      }`}
-                    >
-                      <Text
-                        className={`font-semibold text-center ${
-                          prioritiesStatus === opt ? 'text-white' : 'text-gray-400'
-                        }`}
+                <TouchableOpacity
+                  onPress={() => setShowPriorityDropdown((prev) => !prev)}
+                  className="bg-gray-900/50 rounded-xl px-4 py-3 border border-gray-700"
+                >
+                  <View className="flex-row justify-between items-center">
+                    <Text className={`text-base ${prioritiesStatus ? 'text-white' : 'text-gray-400'}`}>
+                      {prioritiesStatus
+                        ? PRIORITY_OPTIONS.find((option) => option.value === prioritiesStatus)?.label
+                        : 'Select status'}
+                    </Text>
+                    <Ionicons
+                      name={showPriorityDropdown ? 'chevron-up' : 'chevron-down'}
+                      size={20}
+                      color="#9CA3AF"
+                    />
+                  </View>
+                </TouchableOpacity>
+
+                {showPriorityDropdown && (
+                  <View className="mt-1 bg-gray-800/90 rounded-xl border border-gray-700">
+                    {PRIORITY_OPTIONS.map((option) => (
+                      <TouchableOpacity
+                        key={option.value}
+                        className="px-4 py-3 border-b border-gray-700 last:border-b-0"
+                        onPress={() => {
+                          setPrioritiesStatus(option.value);
+                          setShowPriorityDropdown(false);
+                        }}
                       >
-                        {opt === 'yes' ? '✓ Yes' : opt === 'partially' ? '◐ Partial' : '✕ No'}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                        <Text className={`text-base ${prioritiesStatus === option.value ? 'text-emerald-400 font-semibold' : 'text-white'}`}>
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
               </View>
 
               {/* Improvement Section */}
@@ -331,15 +373,24 @@ const Journal = () => {
 
               <TouchableOpacity
                 onPress={handleEveningSubmit}
-                disabled={isLoading}
-                className={`bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl p-4 shadow-lg shadow-emerald-500/20 ${isLoading ? 'opacity-70' : ''}`}
+                disabled={isLoading || !hasEveningReflection}
+                activeOpacity={0.8}
+                className={`rounded-3xl overflow-hidden ${isLoading || !hasEveningReflection ? 'opacity-60' : ''}`}
               >
-                {isLoading ? (
-                  <ActivityIndicator color="white" />
-                ) : (
-                  <Text className="text-white text-center font-bold text-lg">Save Evening Reflection</Text>
-                )}
+                  {isLoading ? (
+                    <ActivityIndicator color="white" />
+                  ) : (
+                    <View className={`flex-row items-center justify-center gap-2 bg-green-600/80 px-4 py-5 rounded-xl ${isLoading || !hasMorningReflection ? 'bg-emerald-700' : ''}`}>
+                      <Ionicons name="save" size={20} color="white" />
+                      <Text className="text-white text-center font-bold text-lg">Save Evening Reflection</Text>
+                    </View>
+                  )}
               </TouchableOpacity>
+              {!hasEveningReflection && (
+                <Text className="text-gray-400 text-center text-xs mt-3">
+                  Add at least one entry before saving your evening reflection.
+                </Text>
+              )}
             </View>
           )}
         </ScrollView>

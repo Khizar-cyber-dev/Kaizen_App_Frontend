@@ -327,10 +327,10 @@ export default function Index() {
 
           <View className="flex-row flex-wrap justify-between">
             {[
-              { icon: 'flag', label: 'Goals', screen: '/(tabs)/goals' },
-              { icon: 'trophy', label: 'Achievements', screen: '/(tabs)/achievements' },
+              { icon: 'newspaper-outline', label: 'Journal History', screen: '/(tabs)/journal-history' },
+              { icon: 'trophy-outline', label: 'Achievements', screen: '/(tabs)/achievements' },
               { icon: 'calendar-outline', label: 'Session History', screen: '/(tabs)/session-history' },
-              { icon: 'stats-chart', label: 'Analytics', screen: '/(tabs)/profile' }
+              { icon: 'stats-chart-outline', label: 'Analytics', screen: '/(tabs)/profile' }
             ].map((item, index) => (
               <TouchableOpacity
                 key={index}

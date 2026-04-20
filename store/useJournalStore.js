@@ -47,7 +47,7 @@ export const useJournalStore = create((set) => ({
         if (!userId || !range) return;
         set({ isLoading: true })
         try {
-            const response = await api.get(`/journals/range/${userId}/${range}`);
+            const response = await api.get(`/journals/history`, { params: { userId, range } });
             set({ journals: response.data.journals, isLoading: false })
             return response.data.journals;
         } catch (error) {
@@ -60,7 +60,7 @@ export const useJournalStore = create((set) => ({
         if (!userId) return;
         set({ isLoading: true })
         try {
-            const response = await api.get(`/journals/weekly-insight`, { userId, questions, askAdvice });
+            const response = await api.post(`/journals/ai/weekly-insight`, { userId, questions, askAdvice });
             set({ isLoading: false })
             return response.data;
         } catch (error) {
@@ -69,11 +69,11 @@ export const useJournalStore = create((set) => ({
             throw error;
         }
     },
-    getDailyAIReflection: async (userId, askAdvice, userQuestion) => {
+    getDailyAIReflection: async (userId, askAdvice, userQuestion, date) => {
         if (!userId) return;
         set({ isLoading: true })
         try {
-            const response = await api.get(`/journals/daily-reflection`, { userId, askAdvice, userQuestion });
+            const response = await api.post(`/journals/ai/daily-reflection`, { userId, askAdvice, userQuestion, date });
             set({ isLoading: false })
             return response.data;
         } catch (error) {
